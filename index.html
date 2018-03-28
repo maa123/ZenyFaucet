@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name=viewport content="width=device-width, initial-scale=1">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="theme-color" content="#9e9e9e"/>
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+<link rel="apple-touch-icon" href="favicon.ico" />
+<link rel="icon" type="image/vnd.microsoft.icon" href="favicon.ico" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.grey-blue.min.css" />
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css" onload="this.rel='stylesheet'" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dialog-polyfill/0.4.9/dialog-polyfill.min.css" integrity="sha256-qVjBFbunjrWQ4IikV5dkK1ziW9XKskisX1rUbCIJEhk=" crossorigin="anonymous" />
+<style rel="stylesheet" href='./lib/main.css'></style>
+<title>BitzenyFaucet</title>
+</head>
+<body>
+
+<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header bmzero">
+  <header class="mdl-layout__header  mdl-layout--fixed-header">
+    <div class="mdl-layout__header-row">
+      <span class="mdl-layout-title">BitzenyFaucet</span>
+      <div class="mdl-layout-spacer"></div>
+      <nav class="mdl-navigation mdl-layout--large-screen-only">
+        <a class="mdl-navigation__link pga" href="./">トップページ</a>
+        <a class="mdl-navigation__link pga" href="https://github.com/maa123/ZenyFaucet">ZenyFaucet Script</a>
+        <p class="mdl-navigation__link">貯水槽:<span class="faucetbalance">Loading...</span>ZNY</p>
+      </nav>
+    </div>
+  </header>
+  <div class="mdl-layout__drawer">
+    <span class="mdl-layout-title">BitzenyFaucet</span>
+    <nav class="mdl-navigation">
+      <a class="mdl-navigation__link pga" href="./">トップページ</a>
+      <a class="mdl-navigation__link pga" href="https://github.com/maa123/ZenyFaucet">ZenyFaucet Script</a>
+      <p class="mdl-navigation__link">貯水槽:<span class="faucetbalance">Loading...</span>ZNY</p>
+      </nav>
+  </div>
+<main class="main">
+<div class="mdl-grid">
+  <div class="mdl-card mdl-shadow--2dp card-center margin-card mdl-cell mdl-cell--6-col mdl-cell--12-col-phone">
+    <div class="mdl-card__title">
+      <h2 class="mdl-card__title-text">BitzenyFaucet</h2>
+    </div>
+    <div class="mdl-card__supporting-text mdl-color-text--grey-900">
+    <p><span id='rewardmsg'>0</span>ZNYが<span id='rewardiv'>0</span>分ごとに受け取れます</p>
+    <p>Donation:ZnYLDjJVuKRwoN5X5TLbNbeypiht8Uteas</p>
+    <p>一部ブラウザでは動作しない可能性があります</p>
+    <!-- メッセージはここへどうぞ pタグで囲むことをおすすめします -->
+    <!-- -->
+      <form id="form-front" method="post">
+      <div style="white-space: nowrap;">
+        @<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" id="account_ida">
+        <input class="mdl-textfield__input" type="text" id="account_id" required>
+        <label class="mdl-textfield__label" for="account_id">MicrozenyアカウントID</label>
+        </div>
+      </div>
+      <p class="center">
+        <button type="submit" id="one-button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" style="width:80%;">もらう</button>
+      </p>
+    </form>
+    </div>
+  </div>
+</div>
+</main>
+</div>
+<dialog class="mdl-dialog" id="dlog">
+    <h4 class="mdl-dialog__title" id="dialog-title">確認</h4>
+    <div class="mdl-dialog__content">
+      <p id="progresstext"></p>
+      <!-- ad -->
+      広告設置用スペース
+      <!-- ad -->
+      <p></p>
+    </div>
+    <div class="mdl-dialog__actions">
+      <button type="button" class="mdl-button confirm-btn mdl-button--accent" id="get_zny_button">Bitzenyをもらう</button>
+      <button type="button" class="mdl-button confirm-btn close">キャンセル</button>
+      <button type="button" class="mdl-button close" style="display:none;" id="dcc">閉じる</button>
+    </div>
+    <div class="mdl-progress mdl-js-progress mdl-progress__indeterminate width-max" id="dl_ps" style="display:none;"></div>
+    <!-- RecaptchaSitekeyを消してRecaptchaのキーを入力して下さい -->
+        <div class="g-recaptcha" data-sitekey="RecaptchaSiteKey" data-callback="onGetZnyButton" data-size="invisible">
+    </div>
+</dialog>
+<div id="demo-toast-example" class="mdl-js-snackbar mdl-snackbar">
+  <div class="mdl-snackbar__text"></div>
+  <button class="mdl-snackbar__action" type="button"></button>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/material-design-lite/1.3.0/material.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dialog-polyfill/0.4.9/dialog-polyfill.min.js" defer integrity="sha256-Niy7AJ0dDiIklf9lFp0ZX1gZsIBa8gQ/S241Wf5vXo4=" crossorigin="anonymous"></script>
+
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
+<script>
+//<![CDATA[
+function grecaptchaexecute(){
+  grecaptcha.execute();
+}
+var onGetZnyButton=(token)=>{
+  dialog.showModal();
+  document.cookie='account_id='+encodeURIComponent($('#account_id').val());
+  $.ajax({
+    url: './giveme.php',
+    type: 'POST',
+    dataType: 'json',
+    data: {
+      'g_token': token,
+      'account_id': $('#account_id').val() 
+    }
+  }).done((j) => {
+    history.pushState(null,null,'./');
+    if(j['result']){
+      $('#dcc').fadeIn(300);
+      $('#dl_ps').fadeOut(300);
+      document.getElementById('progresstext').innerText=j['amount']+"ZNYが送られました!";
+    }else{
+      $('#dl_ps').fadeOut(300);
+      document.getElementById('progresstext').innerText=j['message'];
+    }
+    console.log("success");
+  }).fail(() => {
+    alert("通信エラーが発生しました。");
+    console.log("error");
+  });
+  
+};
+const get_cookie = () =>{
+  let r = [];
+  if(document.cookie == '') return r;
+  let cks = document.cookie.split('; ');
+  for (var i = 0; i < cks.length; i++) {
+    let v=cks[i].split('=');
+    r[v[0]]=decodeURIComponent(v[1]);
+  };
+  return r;
+};
+var dialog;
+$(()=>{
+  fetch('./ad_api.php?v=balance').then( (response) => {return response.json();} ).then((json) => {
+    if(json['result']){
+      $('.faucetbalance').text(json['balance']);
+    }
+  });
+  fetch('./ad_api.php?v=messages').then( (response) => {return response.json();} ).then((json) => {
+    if(json['result']){
+      document.getElementById('rewardmsg').innerText=json['reward'];
+      document.getElementById('rewardiv').innerText=json['reward_interval'];
+    }
+  });
+  let cookies = get_cookie();
+  if(''!=(cookies['account_id']||'')){
+    $('#account_id').val(cookies['account_id']);
+    $('#accent_id').addClass('is-focused');
+    $("#account_ida").addClass('is-dirty');
+  }
+  $('#form-front').on('submit',(ev)=>{
+    ev.preventDefault();
+    dialog.showModal();
+  });
+  $('#get_zny_button').on('click',()=>{
+    dialog.close();
+    grecaptchaexecute();
+    $('.confirm-btn').fadeOut(500);
+    $('#dl_ps').fadeIn(300);
+  });
+  $('.close').on('click',()=>{
+    dialog.close();
+  });
+dialog = document.querySelector('dialog');
+ var showDialogButton = document.querySelector('#show-dialog');
+ if (! dialog.showModal) {
+   dialogPolyfill.registerDialog(dialog);
+ }
+
+ dialog.querySelector('.close').addEventListener('click',()=>{dialog.close();});
+
+});
+//]]>
+</script>
+</body>
+</html>

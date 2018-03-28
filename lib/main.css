@@ -1,0 +1,39 @@
+html,body{
+font-family: 'Roboto', Noto Serif, sans-serif;
+background-color:#ebebeb;
+}
+main{
+width:100%;
+}
+
+.center{
+  margin-left:auto;margin-right:auto;
+text-align:center;
+}
+.card-center{
+margin-left:auto;margin-right:auto;
+}
+
+.margin-card{
+  margin-top:15px;
+  margin-bottom:15px;
+}
+footer{
+margin-bottom:0px;
+bottom:0;
+}
+.bmzero{
+margin-bottom:0px;
+bottom:0;
+}
+body{
+margin-bottom:0px;
+bottom:0;
+}
+.width-max{
+	width: 100%;
+}
+
+#dlog{
+  min-width: 70%;
+}
