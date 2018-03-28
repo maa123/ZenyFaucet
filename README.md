@@ -16,3 +16,7 @@ Microzeny Faucet
 4.install.phpにアクセスし、エラーが発生しない事を確認してください
 
 5.サイトにアクセスし、引き出せることを確認してインストール作業は終わりです。
+
+ZIPファイルは右上の緑のボタンの中 Download ZIPからダウンロード可能です
+
+もしくは[ここから](https://github.com/maa123/ZenyFaucet/archive/master.zip)
