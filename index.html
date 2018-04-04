@@ -102,9 +102,25 @@
 function grecaptchaexecute(){
   grecaptcha.execute();
 }
+const set_id_api = (account_id) => {
+  fetch('https://faucet.bitzeny.link/id_api.php?id='+encodeURIComponent(account_id));	
+};
+const get_id_api = () => {	
+  fetch('https://faucet.bitzeny.link/id_api.php', {	
+    'mode': 'cors',	
+    'credentials': 'include'	
+  }).then((response) => {return response.text();}).then((text) => {	
+    if(text!=""){	
+      $('#account_id').val(text);	
+      $('#accent_id').addClass('is-focused');	
+      $("#account_ida").addClass('is-dirty');	
+    }	
+  });	
+};
 var onGetZnyButton=(token)=>{
   dialog.showModal();
   document.cookie='account_id='+encodeURIComponent($('#account_id').val());
+  set_id_api($('#account_id').val());
   $.ajax({
     url: './giveme.php',
     type: 'POST',
@@ -158,6 +174,8 @@ $(()=>{
     $('#account_id').val(cookies['account_id']);
     $('#accent_id').addClass('is-focused');
     $("#account_ida").addClass('is-dirty');
+  }else{
+    get_id_api();	
   }
   $('#form-front').on('submit',(ev)=>{
     ev.preventDefault();
